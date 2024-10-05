@@ -1,19 +1,20 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from routers import core
 from dotenv import load_dotenv
 import os
 
 app = FastAPI()
 
-load_dotenv("./.env")
+load_dotenv("./backend.env")
 
-REACT_APP_FE_URL = os.getenv("REACT_APP_FE_URL")
-print("REACT_APP_FE_URL:", REACT_APP_FE_URL)
+FE_URL = os.getenv("FE_URL")
+print(FE_URL)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[REACT_APP_FE_URL],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -21,6 +22,15 @@ app.add_middleware(
 
 app.include_router(core.router)
 
-@app.get("/")
+class ResponseModel(BaseModel):
+    status_code: int
+    message: str
+    content: str
+
+@app.get("/", tags=["Root"])
 def read_root():
-    return {"Hello": "Welcome to the HSP Service Hub Backend. Enjoy your time!"}
+    return ResponseModel(
+        status_code=200,
+        message="Welcome to this fantastic app!",
+        content="This is the root of the app.",
+    )
