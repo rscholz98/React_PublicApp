@@ -7,14 +7,14 @@ import os
 
 app = FastAPI()
 
-load_dotenv("./backend.env")
+load_dotenv("./.env")
 
-FE_URL = os.getenv("FE_URL")
-print(FE_URL)
+PYTHON_APP_FE_URL = os.getenv("PYTHON_APP_FE_URL")
+print(PYTHON_APP_FE_URL)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[PYTHON_APP_FE_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

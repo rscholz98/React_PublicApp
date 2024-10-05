@@ -1,6 +1,8 @@
 import base64
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from PyPDF2 import PdfReader
+from io import BytesIO
 
 router = APIRouter()
 
@@ -15,13 +17,23 @@ class ResponseModel(BaseModel):
 
 @router.post("/LLM/request_prompt", response_model=ResponseModel, tags=["LLM"])
 async def request_prompt(data: RequestPrompt):
-    # Decode the base64-encoded PDF file
+    
     try:
         pdf_content = base64.b64decode(data.pdf_file)
     except Exception as e:
         raise HTTPException(status_code=400, detail="Invalid base64-encoded file.")
 
-    response = "LLM answer based on the prompt and PDF content"  # Simulate an LLM response
+    pdf_stream = BytesIO(pdf_content)
+
+    try:
+        reader = PdfReader(pdf_stream)
+        text = ""
+        for page_num in range(len(reader.pages)):
+            text += reader.pages[page_num].extract_text()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error reading the PDF file.")
+
+    response = f"LLM answer based on the prompt: {data.prompt} and PDF content: {text}"
 
     return ResponseModel(
         status_code=200,

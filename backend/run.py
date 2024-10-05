@@ -2,7 +2,7 @@ import uvicorn
 from dotenv import load_dotenv
 import os
 
-load_dotenv(".backend.env")
+load_dotenv("./.env")
 
 if __name__ == "__main__":
     host = os.getenv("HOST", "127.0.0.1") 
