@@ -6,11 +6,11 @@ import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import CustomDatePicker from "./CustomDatePicker";
 import NavbarBreadcrumbs from "./NavbarBreadcrumbs";
 import MenuButton from "./MenuButton";
-import ColorModeIconDropdown from "../theme/customizations/ColorModeIconDropdown";
+import ColorModeIconDropdown from "../../theme/customizations/ColorModeIconDropdown";
 
 import Search from "./Search";
 
-export default function Header() {
+export default function Header({ selectedPage }) {
  return (
   <Stack
    direction="row"
@@ -24,7 +24,7 @@ export default function Header() {
    }}
    spacing={2}
   >
-   <NavbarBreadcrumbs />
+   <NavbarBreadcrumbs selectedPage={selectedPage} />
    <Stack direction="row" sx={{ gap: 1 }}>
     <Search />
     <CustomDatePicker />

@@ -29,12 +29,6 @@ const Toolbar = styled(MuiToolbar)({
 });
 
 export default function AppNavbar() {
- const [open, setOpen] = React.useState(false);
-
- const toggleDrawer = (newOpen) => () => {
-  setOpen(newOpen);
- };
-
  return (
   <AppBar
    position="fixed"
@@ -64,7 +58,7 @@ export default function AppNavbar() {
        Dashboard
       </Typography>
      </Stack>
-     <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
+     <MenuButton aria-label="menu">
       <MenuRoundedIcon />
      </MenuButton>
     </Stack>

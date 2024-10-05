@@ -28,13 +28,25 @@ const secondaryListItems = [
  { text: "Feedback", icon: <HelpRoundedIcon /> },
 ];
 
-export default function MenuContent() {
+export default function MenuContent({ setSelectedPage }) {
+ // State to keep track of the selected item
+ const [selectedItem, setSelectedItem] = React.useState("Home");
+
+ const handleListItemClick = (text) => {
+  setSelectedItem(text); // Update selected item
+  setSelectedPage(text); // Update the parent state
+ };
+
  return (
   <Stack sx={{ flexGrow: 1, p: 1, justifyContent: "space-between" }}>
+   {/* Main list */}
    <List dense>
     {mainListItems.map((item, index) => (
      <ListItem key={index} disablePadding sx={{ display: "block" }}>
-      <ListItemButton selected={index === 0}>
+      <ListItemButton
+       onClick={() => handleListItemClick(item.text)} // Handle click
+       selected={selectedItem === item.text} // Apply selected prop
+      >
        <ListItemIcon>{item.icon}</ListItemIcon>
        <ListItemText primary={item.text} />
       </ListItemButton>
@@ -42,10 +54,14 @@ export default function MenuContent() {
     ))}
    </List>
 
+   {/* Secondary list */}
    <List dense>
     {secondaryListItems.map((item, index) => (
      <ListItem key={index} disablePadding sx={{ display: "block" }}>
-      <ListItemButton>
+      <ListItemButton
+       onClick={() => handleListItemClick(item.text)} // Handle click
+       selected={selectedItem === item.text} // Apply selected prop
+      >
        <ListItemIcon>{item.icon}</ListItemIcon>
        <ListItemText primary={item.text} />
       </ListItemButton>
